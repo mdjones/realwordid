@@ -1,0 +1,25 @@
+group 'com.nibr.oncology'
+version '0.1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'org.springframework:spring-test:4.2.5.RELEASE'
+
+
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.5'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.5'
+    compile 'org.springframework:spring-context:4.2.5.RELEASE'
+    compile 'com.google.guava:guava:19.0'
+    compile 'org.hsqldb:hsqldb:2.3.3'
+    compile 'org.springframework:spring-jdbc:4.2.5.RELEASE'
+    compile 'commons-dbcp:commons-dbcp:1.4'
+}
