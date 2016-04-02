@@ -5,7 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.TreeMap;
 
+import com.google.common.collect.Maps;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,41 +39,73 @@ public class DictionaryDao {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    void createDataBase() throws SQLException, IOException {
-        String sql = "DROP TABLE PUBLIC.WORDS IF EXISTS";
-       this.jdbcTemplate.execute(sql);
-        logger.debug("Dropped table");
+    void rebuildUsedWordsTable(){
+        String sql = "DROP TABLE PUBLIC.USED_WORDS IF EXISTS";
+        this.jdbcTemplate.execute(sql);
+        logger.debug("Dropped PUBLIC.USED_WORDS");
 
-         sql = "CREATE TABLE PUBLIC.WORDS" +
-                 " (ID INTEGER NOT NUll, " +
-                 "SIZE INTEGER NOT NULL, " +
-                 "WORD CHAR(25)) ";
+        sql = "CREATE TABLE PUBLIC.USED_WORDS" +
+                " (ID INTEGER NOT NUll, " +
+                "SIZE INTEGER NOT NULL, " +
+                "WORD VARCHAR(25) )";
+        this.jdbcTemplate.execute(sql);
+        logger.debug("CREATED USED_WORDS table");
+    }
+
+    void createDataBase() throws SQLException, IOException {
+        int varcharSize = 25;
+        TreeMap<Integer, Integer> wordSizeMap = Maps.newTreeMap();
+
+        String sql = "DROP TABLE PUBLIC.WORDS IF EXISTS";
+        this.jdbcTemplate.execute(sql);
+        logger.debug("Dropped PUBLIC.WORDS");
+
+        sql = "CREATE TABLE PUBLIC.WORDS" +
+                " (ID INTEGER NOT NUll, " +
+                "SIZE INTEGER NOT NULL, " +
+                "WORD VARCHAR(" + varcharSize + ") )";
         this.jdbcTemplate.execute(sql);
         logger.debug("CREATED table");
-
-//        sql = "CREATE TABLE PUBLIC.USED_WORDS" +
-//                " (SIZE INTEGER NOT NULL, " +
-//                "WORD CHAR(25) NOT NULL) ";
-//        this.jdbcTemplate.execute(sql);
-//        logger.debug("CREATED used words table");
 
         Resource resource = resourceLoader.getResource("classpath:allWords.txt");
         int n=0;
         try (BufferedReader br = new BufferedReader(new FileReader(resource.getFile()))) {
-            sql = "INSERT INTO PUBLIC.WORDS (ID, SIZE, WORD) VALUES (";
+            String baseSql = "INSERT INTO PUBLIC.WORDS (ID, SIZE, WORD) VALUES (";
             String line;
+            int batchSize = 100;
+            int currentBatchSize = 0;
+            int batchNumber = 0;
+            sql = baseSql;
             while ((line = br.readLine()) != null) {
                 String word = line.trim();
                 n++;
-                if(n>500)break;
+                currentBatchSize++;
+                //if(n>100000)break;
                 sql += "(" + n + "," + "" + word.length() + ",'" + word + "'),";
-            }
-            sql = sql.substring(0,sql.length()-1);
-            sql+=")";
 
-            this.jdbcTemplate.execute(sql);
+                int count = 1;
+                if(wordSizeMap.containsKey(word.length())){
+                    count = wordSizeMap.get(word.length())+1;
+                }
+                wordSizeMap.put(word.length(), count);
+
+                if(currentBatchSize == batchSize){
+                    batchNumber++;
+                    sql = sql.substring(0,sql.length()-1);
+                    sql+=")";
+                    logger.info("Committing batch " + batchNumber);
+                    currentBatchSize = 0;
+                    this.jdbcTemplate.execute(sql);
+                    sql = baseSql;
+                }
+            }
         }
-        logger.debug("Filled Table");
+
+        if(wordSizeMap.lastKey()>varcharSize){
+            logger.warn("Largest dictionary word (size=" + wordSizeMap.lastKey() +
+                    " was greater then VARCHAR (size=" + varcharSize + ")");
+        }
+        logger.debug("Filled Table (Num. of Words = " + n + "). Largest word was " + wordSizeMap.lastKey());
     }
 
     public Word getRandomWord(int size){
@@ -87,9 +122,9 @@ public class DictionaryDao {
 
     void removeWord(Word word) {
         String sql = "DELETE FROM PUBLIC.WORDS " +
-                     "WHERE ID = " + word.getId();
+                "WHERE ID = " + word.getId();
         this.jdbcTemplate.execute(sql);
-        sql = "INSERT INTO PUBLIC.USED_WORDS (" + word.getId() + "," + "" + word.getSize() + ",'" + word.getWord() + "')";
+        sql = "INSERT INTO PUBLIC.USED_WORDS VALUES (" + word.getId() + "," + "" + word.getSize() + ",'" + word.getWord() + "')";
         this.jdbcTemplate.execute(sql);
     }
 }
