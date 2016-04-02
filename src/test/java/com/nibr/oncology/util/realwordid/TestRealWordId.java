@@ -1,7 +1,6 @@
 package com.nibr.oncology.util.realwordid;
 
 import com.google.common.collect.Sets;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -41,29 +40,33 @@ public class TestRealWordId {
     @Test
     public void getARandomWord(){
         assertNotNull("null uniqueWordFetcher", uniqueWordFetcher);
-        boolean deleteWord = false;
-        String aWord = uniqueWordFetcher.getUniqueEightLetterWord(deleteWord);
+        boolean removeWordFromDb = true;
+        String aWord = uniqueWordFetcher.getUniqueFiveLetterWord(removeWordFromDb);
         assertNotNull("Word was null", aWord);
 
-        Set<String> words = Sets.newHashSet();
+        Set<String> words = Sets.newTreeSet();
         words.add(aWord);
-        for(int i=0; i<100; i++){
-            aWord = uniqueWordFetcher.getUniqueEightLetterWord(deleteWord);
-            assertTrue("Not a unique word", !words.contains(aWord));
+        int wordsToFetch = 2000;
+        for(int i=1; i<wordsToFetch; i++){
+            aWord = uniqueWordFetcher.getUniqueFiveLetterWord(removeWordFromDb);
+            assertTrue("Not a unique word, aWord="+aWord +", words="+words, !words.contains(aWord));
             words.add(aWord);
         }
+
+        assertEquals("Did not get all the words", wordsToFetch, words.size());
     }
 
     @Test
     public void createDatabase() throws SQLException, IOException {
+        dictionaryDao.rebuildUsedWordsTable();
         dictionaryDao.createDataBase();
     }
 
     @Test
     public void testDao(){
-        logger.debug(dictionaryDao.getRandomWord(8).getWord());
-        logger.debug(dictionaryDao.getRandomWord(8).getWord());
-        logger.debug(dictionaryDao.getRandomWord(8).getWord());
-        logger.debug(dictionaryDao.getRandomWord(8).getWord());
+        logger.debug("|"+dictionaryDao.getRandomWord(5).getWord()+"|");
+        logger.debug("|"+dictionaryDao.getRandomWord(5).getWord()+"|");
+        logger.debug("|"+dictionaryDao.getRandomWord(5).getWord()+"|");
+        logger.debug("|"+dictionaryDao.getRandomWord(5).getWord()+"|");
     }
 }

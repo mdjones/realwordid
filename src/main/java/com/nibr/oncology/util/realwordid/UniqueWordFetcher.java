@@ -35,4 +35,7 @@ public class UniqueWordFetcher {
         return getUniqueWord(8, removeWordFromDb);
     }
 
+    public String getUniqueFiveLetterWord(boolean removeWordFromDb) {
+        return getUniqueWord(5, removeWordFromDb);
+    }
 }

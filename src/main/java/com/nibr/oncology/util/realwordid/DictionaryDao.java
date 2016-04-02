@@ -1,8 +1,6 @@
 package com.nibr.oncology.util.realwordid;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -106,6 +104,16 @@ public class DictionaryDao {
                     " was greater then VARCHAR (size=" + varcharSize + ")");
         }
         logger.debug("Filled Table (Num. of Words = " + n + "). Largest word was " + wordSizeMap.lastKey());
+
+        PrintWriter out
+                = new PrintWriter(new BufferedWriter(new FileWriter("WORD_COUNT_TABLE.txt")));
+
+        out.println("WORD_SIZE\tCOUNT");
+        for(Map.Entry<Integer, Integer> entry : wordSizeMap.entrySet()){
+            out.println(entry.getKey()+"\t"+entry.getValue());
+        }
+        out.flush();
+        out.close();
     }
 
     public Word getRandomWord(int size){
@@ -114,7 +122,11 @@ public class DictionaryDao {
         return this.jdbcTemplate.query(sql, new ResultSetExtractor<Word>(){
             @Override
             public Word extractData(ResultSet rs) throws SQLException, DataAccessException {
-                rs.next();
+                if(!rs.next()){
+                    String msg = "No words of size " + size + " left in the database";
+                    logger.error(msg);
+                    throw new IllegalArgumentException(msg);
+                }
                 return new Word(rs.getInt("ID"), rs.getInt("SIZE"), rs.getString("WORD"));
             }
         });
