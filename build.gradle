@@ -3,7 +3,7 @@ version '0.1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'application'
-mainClassName = "com.nibr.oncology.util.realwordid.RealWordIdUtil"
+mainClassName = "com.nibr.oncology.util.realwordid.RealWordApp"
 
 sourceCompatibility = 1.7
 
