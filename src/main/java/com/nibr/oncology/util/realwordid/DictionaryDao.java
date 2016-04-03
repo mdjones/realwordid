@@ -50,7 +50,7 @@ public class DictionaryDao {
         logger.debug("CREATED USED_WORDS table");
     }
 
-    void createDataBase() throws SQLException, IOException {
+    void rebuildWordsTable() throws SQLException, IOException {
         int varcharSize = 25;
         TreeMap<Integer, Integer> wordSizeMap = Maps.newTreeMap();
 
@@ -67,7 +67,8 @@ public class DictionaryDao {
 
         Resource resource = resourceLoader.getResource("classpath:allWords.txt");
         int n=0;
-        try (BufferedReader br = new BufferedReader(new FileReader(resource.getFile()))) {
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
             String baseSql = "INSERT INTO PUBLIC.WORDS (ID, SIZE, WORD) VALUES (";
             String line;
             int batchSize = 100;
