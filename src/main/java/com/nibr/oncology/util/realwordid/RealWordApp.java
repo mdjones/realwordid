@@ -47,22 +47,30 @@ public final class RealWordApp {
             RealWordApp realWordIdUtil = applicationContext.getBean(RealWordApp.class);
 // add CLI property source
             OptionParser parser = new OptionParser();
-            parser.accepts("rebuildDatabase", "Rebuild word table.");
-            parser.accepts("removeUsedWordList", "Rebuild used word table.");
+            parser.accepts("rebuildWordsTable", "Rebuild word table.");
+            parser.accepts("rebuildUsedWordsTable", "Rebuild used word table.");
             parser.accepts("removeWordFromDataBase", "Remove the returned word from the database");
-            parser.accepts("randomWord").withOptionalArg().ofType( Integer.class ).defaultsTo(5);
+            parser.accepts("randomWord", "Get 1 or more random words").withOptionalArg().ofType( Integer.class ).defaultsTo(3);
+            parser.accepts("wordSize", "The size of the word to return").withOptionalArg().ofType( Integer.class ).defaultsTo(5);
             OptionSet options = parser.parse(args);
             //PropertySource ps = new JOptCommandLinePropertySource(options);
             //applicationContext.getEnvironment().getPropertySources().addLast(ps);
 
             //logger.debug(applicationContext.getEnvironment());
             if(options.has("randomWord")){
-                int wordSize = Integer.parseInt(options.valueOf("randomWord").toString());
+                int wordSize = Integer.parseInt(options.valueOf("wordSize").toString());
+                int n = Integer.parseInt(options.valueOf("randomWord").toString());
                 boolean removeFromDataBase = options.has("removeWordFromDataBase");
-                realWordIdUtil.printRandomWord(wordSize, removeFromDataBase);
+                for(int i=0; i<n; i++) {
+                    realWordIdUtil.printRandomWord(wordSize, removeFromDataBase);
+                }
             }
-            if(options.has("rebuildDatabase")){
-                realWordIdUtil.rebuildDataBase();
+            if(options.has("rebuildWordsTable")){
+                realWordIdUtil.rebuildWordsTable();
+            }
+
+            if(options.has("rebuildUsedWordsTable")){
+                realWordIdUtil.rebuildUsedWordsTable();
             }
 
             if(!options.hasOptions() || options.has("help")) {
@@ -76,10 +84,14 @@ public final class RealWordApp {
 
     }
 
-    private void rebuildDataBase() throws IOException, SQLException {
-        dictionaryDao.rebuildUsedWordsTable();
-        dictionaryDao.createDataBase();
+    private void rebuildWordsTable() throws IOException, SQLException {
+        dictionaryDao.rebuildWordsTable();
     }
+
+    private void rebuildUsedWordsTable() throws IOException, SQLException {
+        dictionaryDao.rebuildUsedWordsTable();
+    }
+
 
     private void printRandomWord(int wordSize, boolean removeFromDataBase) {
         logger.info("The word is " + uniqueWordFetcher.getUniqueWord(wordSize, removeFromDataBase));
