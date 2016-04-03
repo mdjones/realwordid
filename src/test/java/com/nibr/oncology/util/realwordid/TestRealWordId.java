@@ -59,7 +59,7 @@ public class TestRealWordId {
     @Test
     public void createDatabase() throws SQLException, IOException {
         dictionaryDao.rebuildUsedWordsTable();
-        dictionaryDao.createDataBase();
+        dictionaryDao.rebuildUsedWordsTable();
     }
 
     @Test
