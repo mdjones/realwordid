@@ -59,6 +59,9 @@ public class TestRealWordId {
     }
 
     @Test
+    /**
+     * TODO: Make a separate db just for testing that is then deleted.
+     */
     public void createDatabase() throws SQLException, IOException {
         dictionaryDao.rebuildUsedWordsTable();
         dictionaryDao.rebuildUsedWordsTable();
