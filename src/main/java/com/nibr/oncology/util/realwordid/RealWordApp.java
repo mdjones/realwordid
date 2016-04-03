@@ -17,14 +17,14 @@ import java.sql.SQLException;
  */
 
 @Component
-public final class RealWordIdUtil {
-    private static final Logger logger = LogManager.getLogger(RealWordIdUtil.class);
+public final class RealWordApp {
+    private static final Logger logger = LogManager.getLogger(RealWordApp.class);
 
     private final UniqueWordFetcher uniqueWordFetcher;
     private final DictionaryDao dictionaryDao;
 
     @Autowired
-    public RealWordIdUtil(final UniqueWordFetcher uniqueWordFetcher, DictionaryDao dictionaryDao) {
+    public RealWordApp(final UniqueWordFetcher uniqueWordFetcher, DictionaryDao dictionaryDao) {
         this.uniqueWordFetcher = uniqueWordFetcher;
         this.dictionaryDao = dictionaryDao;
     }
@@ -44,7 +44,7 @@ public final class RealWordIdUtil {
         applicationContext.start();
 
         try {
-            RealWordIdUtil realWordIdUtil = applicationContext.getBean(RealWordIdUtil.class);
+            RealWordApp realWordIdUtil = applicationContext.getBean(RealWordApp.class);
 // add CLI property source
             OptionParser parser = new OptionParser();
             parser.accepts("rebuildDatabase", "Rebuild word table.");
