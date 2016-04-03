@@ -11,6 +11,7 @@ grep -P "^[A-Z]+$" pg29765.txt | uniq > allWords.txt
 
 # Usage
 
+```bash
 $ ./build/install/realwordid/bin/realwordid --help
 Apr 03, 2016 12:33:24 AM org.springframework.context.annotation.AnnotationConfigApplicationContext prepareRefresh
 INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:33:24 EDT 2016]; root of context hierarchy
@@ -22,12 +23,14 @@ Option                    Description
 --rebuildWordsTable       Rebuild word table.
 --removeWordFromDataBase  Remove the returned word from the database
 --wordSize [Integer]      The size of the word to return (default: 5)
+```
 
-# Rebuild the database
+## Rebuild the database
 $ ./build/install/realwordid/bin/realwordid --rebuildUsedWordsTable --rebuildWordsTable
 
-#Get random uniq words
+## Get random uniq words
 
+```bash
 $ ./build/install/realwordid/bin/realwordid --randomWord 5 --wordSize 18 --removeWordFromDataBase
 Apr 03, 2016 12:32:26 AM org.springframework.context.annotation.AnnotationConfigApplicationContext prepareRefresh
 INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:32:26 EDT 2016]; root of context hierarchy
@@ -38,4 +41,4 @@ INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicat
 00:32:27.733 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is THERMOLUMINESCENCE
 Apr 03, 2016 12:32:27 AM org.springframework.context.annotation.AnnotationConfigApplicationContext doClose
 INFO: Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:32:26 EDT 2016]; root of context hierarchy
-
+```
