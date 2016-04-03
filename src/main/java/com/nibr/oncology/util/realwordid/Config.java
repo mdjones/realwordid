@@ -15,7 +15,6 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan("com.nibr") // search the com.company package for @Component classes
-//@ImportResource({"classpath:application-context.xml"})
 @PropertySource("classpath:/jdbc.properties")
 public class Config {
     static String REAL_WORD_DB_PROP = "REAL_WORD_DB";
@@ -23,11 +22,6 @@ public class Config {
 
     @Autowired
     private Environment environment;
-
-    @Bean
-    public String databasePath() {
-        return environment.getProperty(REAL_WORD_DB_PROP);
-    }
 
     @Bean
     public DataSource dataSource() {
