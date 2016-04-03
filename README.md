@@ -26,7 +26,37 @@ Option                    Description
 ```
 
 ## Rebuild the database
+```bash
 $ ./build/install/realwordid/bin/realwordid --rebuildUsedWordsTable --rebuildWordsTable
+Apr 03, 2016 12:36:43 AM org.springframework.context.annotation.AnnotationConfigApplicationContext prepareRefresh
+INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:36:43 EDT 2016]; root of context hierarchy
+00:36:44.531 [main] DEBUG com.nibr.oncology.util.realwordid.DictionaryDao - Dropped PUBLIC.WORDS
+00:36:44.532 [main] DEBUG com.nibr.oncology.util.realwordid.DictionaryDao - CREATED table
+00:36:44.533 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 1
+00:36:44.536 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 2
+00:36:44.539 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 3
+00:36:44.542 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 4
+00:36:44.546 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 5
+00:36:44.548 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 6
+00:36:44.549 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 7
+00:36:44.551 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 8
+00:36:44.553 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 9
+00:36:44.555 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 10
+00:36:44.562 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 11
+00:36:44.564 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 12
+00:36:44.565 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 13
+00:36:44.566 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 14
+00:36:44.567 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 15
+00:36:44.569 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 16
+00:36:44.571 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 17
+00:36:44.572 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 18
+00:36:44.572 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 19
+00:36:44.573 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 20
+00:36:44.574 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 21
+00:36:44.575 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 22
+00:36:44.576 [main] INFO  com.nibr.oncology.util.realwordid.DictionaryDao - Committing batch 23
+...
+```
 
 ## Get random uniq words
 
