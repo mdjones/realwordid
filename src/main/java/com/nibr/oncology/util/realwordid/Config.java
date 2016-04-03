@@ -1,15 +1,10 @@
 package com.nibr.oncology.util.realwordid;
 
-import com.sun.org.apache.regexp.internal.RE;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
@@ -20,19 +15,11 @@ import javax.sql.DataSource;
  */
 @Configuration
 @ComponentScan("com.nibr") // search the com.company package for @Component classes
-@ImportResource({"classpath:application-context.xml"})
+//@ImportResource({"classpath:application-context.xml"})
+@PropertySource("classpath:/jdbc.properties")
 public class Config {
     static String REAL_WORD_DB_PROP = "REAL_WORD_DB";
     private static final Logger logger = LogManager.getLogger(Config.class);
-
-    @Value("${jdbc.driverClassName}")
-    private String driverClassName;
-
-    @Value("${jdbc.username}")
-    private String userName;
-
-    @Value("${jdbc.password}")
-    private String password;
 
     @Autowired
     private Environment environment;
@@ -45,16 +32,15 @@ public class Config {
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        logger.debug("MASDASDASD:" + userName);
-        dataSource.setDriverClassName(driverClassName);
+        dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
 
         if (!environment.containsProperty(REAL_WORD_DB_PROP)) {
             throw new IllegalArgumentException("EEnvironment variable " + REAL_WORD_DB_PROP + " must be set");
         }
         String url = "jdbc:hsqldb:file:" + environment.getProperty(REAL_WORD_DB_PROP);
         dataSource.setUrl(url);
-        dataSource.setUsername(userName);
-        dataSource.setPassword(password);
+        dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
+        dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
     }
 

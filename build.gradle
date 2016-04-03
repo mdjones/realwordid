@@ -2,6 +2,8 @@ group 'com.nibr.oncology'
 version '0.1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "com.nibr.oncology.util.realwordid.RealWordIdUtil"
 
 sourceCompatibility = 1.7
 
@@ -20,6 +22,7 @@ dependencies {
     compile 'org.springframework:spring-context:4.2.5.RELEASE'
     compile 'com.google.guava:guava:19.0'
     compile 'org.hsqldb:hsqldb:2.3.3'
+    compile 'net.sf.jopt-simple:jopt-simple:5.0'
     compile 'org.springframework:spring-jdbc:4.2.5.RELEASE'
     compile 'commons-dbcp:commons-dbcp:1.4'
 }

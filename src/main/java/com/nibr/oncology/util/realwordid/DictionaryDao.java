@@ -116,7 +116,7 @@ public class DictionaryDao {
         out.close();
     }
 
-    public Word getRandomWord(int size){
+    public Word getRandomWord(final int size){
         String sql = "SELECT * FROM PUBLIC.WORDS WHERE SIZE = " + size +
                 " ORDER BY RAND() LIMIT 1";
         return this.jdbcTemplate.query(sql, new ResultSetExtractor<Word>(){
