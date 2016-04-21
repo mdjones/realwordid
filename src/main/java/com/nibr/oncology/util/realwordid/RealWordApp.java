@@ -94,6 +94,6 @@ public final class RealWordApp {
 
 
     private void printRandomWord(int wordSize, boolean removeFromDataBase) {
-        logger.info("The word is " + uniqueWordFetcher.getUniqueWord(wordSize, removeFromDataBase));
+        System.out.println(uniqueWordFetcher.getUniqueWord(wordSize, removeFromDataBase));
     }
 }
