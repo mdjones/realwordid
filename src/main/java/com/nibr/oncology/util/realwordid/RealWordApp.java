@@ -43,11 +43,6 @@ public final class RealWordApp {
             parser.accepts("wordSize", "The size of the word to return").withOptionalArg().ofType( Integer.class ).defaultsTo(5);
             OptionSet options = parser.parse(args);
 
-            if(!options.hasOptions() || options.has("help")) {
-                parser.printHelpOn(System.out);
-                System.exit(0);
-            }
-
             if(!System.getenv().containsKey(Config.REAL_WORD_DB_PROP)){
                 System.out.println();
                 logger.error("Need to set " + Config.REAL_WORD_DB_PROP);
@@ -57,8 +52,12 @@ public final class RealWordApp {
                 System.exit(0);
             }
 
-              RealWordApp realWordIdUtil = makeRealWordIdUtil(applicationContext);
+            if(!options.hasOptions() || options.has("help")) {
+                parser.printHelpOn(System.out);
+                System.exit(0);
+            }
 
+            RealWordApp realWordIdUtil = makeRealWordIdUtil(applicationContext);
 
             if(options.has("rebuildWordsTable")){
                 realWordIdUtil.rebuildWordsTable();
