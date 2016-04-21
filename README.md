@@ -9,6 +9,21 @@ via:  curl http://www.gutenberg.org/cache/epub/29765/pg29765.txt > pg29765.txt
 All words were extracted via.
 grep -P "^[A-Z]+$" pg29765.txt | uniq > allWords.txt
 
+# Install
+
+```bash
+$ git clone https://github.com/mdjones/realwordid
+$ cd realwordid/
+$ chmod a+x ./gradlew
+$ ./gradlew distTar
+$ cp ./build/distributions/realwordid-0.1.0-SNAPSHOT.tar /tmp/
+$ cd /tmp/
+$ tar -xvf realwordid-0.1.0-SNAPSHOT.tar
+$ ./realwordid-0.1.0-SNAPSHOT/bin/realwordid
+$ mkdir /tmp/words
+$ export REAL_WORD_DB=/tmp/words/realworddb
+```
+
 # Usage
 
 ```bash
