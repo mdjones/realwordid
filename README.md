@@ -63,11 +63,11 @@ INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicat
 $ ./build/install/realwordid/bin/realwordid --randomWord 5 --wordSize 18 --removeWordFromDataBase
 Apr 03, 2016 12:32:26 AM org.springframework.context.annotation.AnnotationConfigApplicationContext prepareRefresh
 INFO: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:32:26 EDT 2016]; root of context hierarchy
-00:32:27.637 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is BRANCHIOGASTROPODA
-00:32:27.664 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is INCONSEQUENTIALITY
-00:32:27.686 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is PARALLELOGRAMMATIC
-00:32:27.710 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is CHROMOLITHOGRAPHER
-00:32:27.733 [main] INFO  com.nibr.oncology.util.realwordid.RealWordApp - The word is THERMOLUMINESCENCE
+BRANCHIOGASTROPODA
+INCONSEQUENTIALITY
+PARALLELOGRAMMATIC
+CHROMOLITHOGRAPHER
+THERMOLUMINESCENCE
 Apr 03, 2016 12:32:27 AM org.springframework.context.annotation.AnnotationConfigApplicationContext doClose
 INFO: Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@184f6be2: startup date [Sun Apr 03 00:32:26 EDT 2016]; root of context hierarchy
 ```
