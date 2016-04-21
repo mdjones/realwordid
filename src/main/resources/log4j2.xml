@@ -10,5 +10,6 @@
       <AppenderRef ref="Console"/>
     </Root>
     <Logger name="com.nibr" level="TRACE"/>
+    <logger name="org.springframework" level="WARN"/>
   </Loggers>
 </Configuration>
