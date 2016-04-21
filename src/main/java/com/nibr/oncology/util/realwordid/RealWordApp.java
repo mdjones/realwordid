@@ -30,21 +30,9 @@ public final class RealWordApp {
     }
 
     public static void main(String[] args) throws IOException, SQLException {
-
-        // should use parameterless constructor as the other one invoke refresh which we certainly don't want
-        // as it automatically trigger property injection and our CLI property is not ready yet
         final AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
 
-        // setup configuration
-        applicationContext.register(Config.class);
-
-
-        // setup all the dependencies (refresh) and make them run (start)
-        applicationContext.refresh();
-        applicationContext.start();
-
         try {
-            RealWordApp realWordIdUtil = applicationContext.getBean(RealWordApp.class);
 // add CLI property source
             OptionParser parser = new OptionParser();
             parser.accepts("help", "Print the help.");
@@ -59,6 +47,18 @@ public final class RealWordApp {
                 parser.printHelpOn(System.out);
                 System.exit(0);
             }
+
+            if(!System.getenv().containsKey(Config.REAL_WORD_DB_PROP)){
+                System.out.println();
+                logger.error("Need to set " + Config.REAL_WORD_DB_PROP);
+                logger.error("'$ export " + Config.REAL_WORD_DB_PROP + "=/opt/var/words/realworddb'");
+                System.out.println();
+                parser.printHelpOn(System.out);
+                System.exit(0);
+            }
+
+              RealWordApp realWordIdUtil = makeRealWordIdUtil(applicationContext);
+
 
             if(options.has("rebuildWordsTable")){
                 realWordIdUtil.rebuildWordsTable();
@@ -82,6 +82,20 @@ public final class RealWordApp {
             applicationContext.close();
         }
 
+    }
+
+    private static RealWordApp makeRealWordIdUtil(AnnotationConfigApplicationContext applicationContext) {
+        // should use parameterless constructor as the other one invoke refresh which we certainly don't want
+        // as it automatically trigger property injection and our CLI property is not ready yet
+
+        // setup configuration
+        applicationContext.register(Config.class);
+
+        // setup all the dependencies (refresh) and make them run (start)
+        applicationContext.refresh();
+        applicationContext.start();
+        RealWordApp realWordApp = applicationContext.getBean(RealWordApp.class);
+        return realWordApp;
     }
 
     private void rebuildWordsTable() throws IOException, SQLException {
